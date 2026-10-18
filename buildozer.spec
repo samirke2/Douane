@@ -32,6 +32,7 @@ android.ndk_api = 24
 android.archs = arm64-v8a, armeabi-v7a
 android.accept_sdk_license = True
 android.allow_backup = False
+android.permissions = INTERNET
 
 # ---- python-for-android
 p4a.branch = v2024.01.21
