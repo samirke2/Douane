@@ -2,12 +2,12 @@
 
 # ---- المعلومات الأساسية
 title = Douane Calculator
-package.name = DouaneCalculator 
-package.domain = org.Douane
+package.name = douanecalculator
+package.domain = org.douane
 
 # ---- الملفات (يجب أن يكون الملف الرئيسي باسم main.py)
 source.dir = .
-source.include_exts = py,png,ttf
+source.include_exts = py,png,ttf,db
 source.exclude_dirs = bin, .buildozer, venv, __pycache__, .git, .github
 source.exclude_patterns = *.pem, *.csv, *.log
 

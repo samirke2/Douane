@@ -6,6 +6,7 @@ import hmac
 import uuid
 import hashlib
 import datetime
+import shutil
 import sqlite3
 import threading
 import webbrowser
@@ -156,12 +157,29 @@ def calc_fees(price_dzd, age, energie, cyl):
 
 
 def get_db_path():
+    """يعيد مسار قاعدة البيانات. على أندرويد تُنسخ مرة واحدة إلى مجلد التطبيق الخاص
+    (قابل للكتابة) ثم تُستخدم النسخة هناك."""
     db_name = "TechVault.db"
     script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    bundled = None
     for path in (os.path.join(script_dir, db_name), os.path.join(os.getcwd(), db_name)):
         if os.path.exists(path):
-            return path
-    return os.path.join(script_dir, db_name)
+            bundled = path
+            break
+
+    private = os.environ.get("ANDROID_PRIVATE") or os.environ.get("ANDROID_APP_PATH")
+    if private and os.path.isdir(private) and bundled:
+        dest = os.path.join(private, db_name)
+        try:
+            if os.path.abspath(dest) != os.path.abspath(bundled):
+                if (not os.path.exists(dest)) or os.path.getsize(dest) == 0:
+                    shutil.copy2(bundled, dest)
+            return dest
+        except Exception:
+            return bundled
+
+    return bundled or os.path.join(script_dir, db_name)
 
 
 DB_FILE = get_db_path()
